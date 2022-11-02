@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { agent } from './veramo/setup'
+import { GreenbugOuttermost } from './components/GreenbugOuttermost';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const did = localStorage.getItem('did')
+  console.log("did: ", did)
+  if (!did) {
+    return (
+      <button onClick={async () => {
+        console.log("agent: ", agent)
+        const id = await agent.didManagerCreate({ kms: 'local' })
+        // console.log("id: ", id)
+        localStorage.setItem('did', id.did)
+      }}>
+        CREATE BURNER
+      </button>
+    )
+  }
+  else {
+    return (
+      <div className="App">
+        <GreenbugOuttermost />
+      </div>
+    );
+  }
 }
 
 export default App;
