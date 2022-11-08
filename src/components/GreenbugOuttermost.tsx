@@ -3,15 +3,18 @@ import { GreenbugPostEditor } from './GreenbugPostEditor';
 
 const Container = styled.div`
     background-color: #73A657;
-    height: 100vh
-    display: flex
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 `;
 
 const MiddleLane = styled.div`
     background-color: #95bc80;
-    max-width: 600px
+    max-width: 800px;
     @media (max-width: 768px) {
-        width: 100h
+        width: 100h;
+        max-width: 100h;
     }
     display: flex;
     flex-direction: column;

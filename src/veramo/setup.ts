@@ -16,7 +16,7 @@ import { DIDManager } from '@veramo/did-manager'
 import { EthrDIDProvider } from '@veramo/did-provider-ethr'
 import { DIDResolverPlugin } from '@veramo/did-resolver'
 import { AbstractKeyManagementSystem, KeyManager } from '@veramo/key-manager'
-import { KeyManagementSystem } from '@veramo/kms-local'
+import { KeyManagementSystem, SecretBox } from '@veramo/kms-local'
 // import { MessageHandler } from '@veramo/message-handler'
 
 
@@ -28,6 +28,7 @@ import { contexts as credential_contexts } from '@transmute/credentials-context'
 
 // You will need to get a project ID from infura https://www.infura.io
 const INFURA_PROJECT_ID = '3586660d179141e3801c3895de1c2eba'
+const KMS_SECRET_KEY = '059691f1abbd5a60203117246dd0dd8172778f088d2b45e1dbe96635ce570f56'
 const dataStore = BrowserLocalStorageStore.fromLocalStorage('veramo-state')
 const id = "greenbug-agent"
 export const agent = createAgent<
@@ -60,7 +61,7 @@ plugins: [
   new KeyManager({
     store: new KeyStoreJson(dataStore),
     kms: {
-      local: new KeyManagementSystem(new PrivateKeyStoreJson(dataStore)),
+      local: new KeyManagementSystem(new PrivateKeyStoreJson(dataStore, new SecretBox(KMS_SECRET_KEY))),
     },
   }),
   new DIDManager({
